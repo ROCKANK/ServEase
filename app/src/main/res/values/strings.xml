@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">ServEase.</string>
+    <string name="welcome">Welcome</string>
+    <string name="name">name</string>
+    <string name="servease">ServEase.\nAnything You Need, One Tap Away.</string>
+    <string name="title">title</string>
+    <string name="book_now">Book Now</string>
+    <string name="off">off</string>
+    <string name="_0">₹0</string>
+    <string name="classic">Classic</string>
+    <string name="premium">Premium</string>
+    <string name="platinum">Platinum</string>
+    <string name="job">job</string>
+    <string name="about_me">About Me</string>
+    <string name="text">text</string>
+</resources>

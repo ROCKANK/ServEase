@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    android:background="@drawable/green_gradient_bg"
+    android:elevation="6dp"
+    android:padding="12dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/itemPic"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/circleImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/bookingIdTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:textColor="#888888"
+        android:textSize="10sp"
+        android:fontFamily="monospace"
+        app:layout_constraintEnd_toStartOf="@+id/callBtn"
+        app:layout_constraintStart_toEndOf="@+id/itemPic"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/titleTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/callBtn"
+        app:layout_constraintStart_toEndOf="@+id/itemPic"
+        app:layout_constraintTop_toBottomOf="@+id/bookingIdTxt"/>
+
+    <TextView
+        android:id="@+id/providerTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/callBtn"
+        app:layout_constraintStart_toEndOf="@+id/itemPic"
+        app:layout_constraintTop_toBottomOf="@+id/titleTxt"/>
+
+    <TextView
+        android:id="@+id/priceTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
+        android:textColor="#6650A4"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@+id/callBtn"
+        app:layout_constraintStart_toEndOf="@+id/itemPic"
+        app:layout_constraintTop_toBottomOf="@+id/providerTxt"/>
+
+    <TextView
+        android:id="@+id/statusTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:text="Pending"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="3dp"
+        android:background="@drawable/status_pending_bg"
+        app:layout_constraintStart_toEndOf="@+id/itemPic"
+        app:layout_constraintTop_toBottomOf="@+id/priceTxt"/>
+
+    <TextView
+        android:id="@+id/timeTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/callBtn"
+        app:layout_constraintStart_toEndOf="@+id/itemPic"
+        app:layout_constraintTop_toBottomOf="@+id/statusTxt"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/callBtn"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:text="Call"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:background="@drawable/purple_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/deleteBtn"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:text="Cancel"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:backgroundTint="#E53935"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/callBtn"
+        android:layout_marginTop="4dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

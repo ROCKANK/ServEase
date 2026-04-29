@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Report a Problem"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/textView61"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView61"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select a reason"
+                android:textColor="#888888"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RadioGroup
+            android:id="@+id/reasonGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <RadioButton android:id="@+id/r1" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="Payment Issue"
+                android:textColor="@color/black" android:padding="8dp"/>
+            <RadioButton android:id="@+id/r2" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="Provider not responding"
+                android:textColor="@color/black" android:padding="8dp"/>
+            <RadioButton android:id="@+id/r3" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="Service not delivered"
+                android:textColor="@color/black" android:padding="8dp"/>
+            <RadioButton android:id="@+id/r4" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="Wrong information"
+                android:textColor="@color/black" android:padding="8dp"/>
+            <RadioButton android:id="@+id/r5" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="App technical issue"
+                android:textColor="@color/black" android:padding="8dp"/>
+            <RadioButton android:id="@+id/r6" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="Other"
+                android:textColor="@color/black" android:padding="8dp"/>
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Problem Title"
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/titleEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Brief title of your problem"
+            android:background="@drawable/edit_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Describe your problem"
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/bodyEdt"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:hint="Write your problem in detail..."
+            android:background="@drawable/edit_bg"
+            android:padding="12dp"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/submitBtn"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="Submit Report"
+            android:textColor="@color/white"
+            android:backgroundTint="#6650A4"/>
+
+    </LinearLayout>
+</ScrollView>

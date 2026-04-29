@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginTop="12dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_marginBottom="12dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Service"
+                android:textColor="@android:color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Basic Info"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/titleEdt"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Title"
+                android:background="@drawable/input_bg"
+                android:padding="10dp"
+                android:layout_marginTop="8dp"/>
+
+            <EditText
+                android:id="@+id/subtitleEdt"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Subtitle"
+                android:background="@drawable/input_bg"
+                android:padding="10dp"
+                android:layout_marginTop="8dp"/>
+
+            <EditText
+                android:id="@+id/descEdt"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Description"
+                android:background="@drawable/input_bg"
+                android:padding="10dp"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Images"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/serviceImage"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/image_bg"
+                android:padding="4dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_image_placeholder"/>
+
+            <Button
+                android:id="@+id/uploadServiceBtn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Upload Service Image"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_bg"
+                android:textColor="@android:color/white"/>
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/circle_bg"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_image_placeholder"/>
+
+            <Button
+                android:id="@+id/uploadProfileBtn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Upload Profile Image"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_bg"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pricing Plans"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/priceEdt"
+                android:hint="Base Price"
+                android:inputType="number"
+                style="@style/input"/>
+
+            <EditText
+                android:id="@+id/oldPriceEdt"
+                android:hint="Base Old Price"
+                android:inputType="number"
+                style="@style/input"/>
+
+            <EditText
+                android:id="@+id/classicPriceEdt"
+                android:hint="Classic Price"
+                android:inputType="number"
+                style="@style/input"/>
+
+            <EditText
+                android:id="@+id/classicOldPriceEdt"
+                android:hint="Classic Old Price"
+                android:inputType="number"
+                style="@style/input"/>
+
+            <EditText
+                android:id="@+id/premiumPriceEdt"
+                android:hint="Premium Price"
+                android:inputType="number"
+                style="@style/input"/>
+
+            <EditText
+                android:id="@+id/premiumOldPriceEdt"
+                android:hint="Premium Old Price"
+                android:inputType="number"
+                style="@style/input"/>
+
+            <EditText
+                android:id="@+id/platinumPriceEdt"
+                android:hint="Platinum Price"
+                android:inputType="number"
+                style="@style/input"/>
+
+            <EditText
+                android:id="@+id/platinumOldPriceEdt"
+                android:hint="Platinum Old Price"
+                android:inputType="number"
+                style="@style/input"/>
+            <EditText
+                android:id="@+id/offTxt"
+                android:hint="% Discount"
+                android:inputType="number"
+                style="@style/input"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Provider Info"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/nameEdt"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Name"
+                android:background="@drawable/input_bg"
+                android:padding="10dp"
+                android:layout_marginTop="8dp"/>
+
+            <EditText
+                android:id="@+id/jobEdt"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Job"
+                android:background="@drawable/input_bg"
+                android:padding="10dp"
+                android:layout_marginTop="8dp"/>
+
+            <EditText
+                android:id="@+id/phoneEdt"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Phone"
+                android:inputType="phone"
+                android:background="@drawable/input_bg"
+                android:padding="10dp"
+                android:layout_marginTop="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Category"
+                android:layout_marginTop="12dp"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+            <Spinner
+                android:id="@+id/categorySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Service Type"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:letterSpacing="0.1"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+
+            <RadioGroup
+                android:id="@+id/serviceTypeGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/inHomeRadio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="🏠 In-Home"
+                    android:checked="true"
+                    android:textColor="@color/black"/>
+
+                <RadioButton
+                    android:id="@+id/digitalRadio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="💻 Digital"
+                    android:textColor="@color/black"/>
+
+            </RadioGroup>
+            <Button
+                android:id="@+id/shareLocationBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="📍 Share My Location"
+                android:textColor="@color/white"
+                android:backgroundTint="#6650A4"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Add Service"
+            android:layout_margin="12dp"
+            android:background="@drawable/btn_bg"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+</ScrollView>
