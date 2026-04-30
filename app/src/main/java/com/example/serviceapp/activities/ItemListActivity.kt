@@ -45,18 +45,28 @@ class ItemListActivity : BaseActivity() {
             viewModel.loadItems(id).observe(this@ItemListActivity) { items ->
 
                 val filteredList = items
-
                     .filter { !it.blocked }
-
                     .filter { item ->
-                        if (!locationFilterActive || userLat == 0.0 || userLon == 0.0) {
-                            true
-                        } else {
-                            val itemLat = item.latitude
-                            val itemLon = item.longitude
-                            val distance = calculateDistance(userLat, userLon, itemLat, itemLon)
-                            distance <= radiusKm
+                        // ✅ Digital services always show — skip location filter
+                        if (item.serviceType == "digital") {
+                            return@filter true
                         }
+
+                        // ✅ In-home services — apply location filter
+                        if (!locationFilterActive || userLat == 0.0 || userLon == 0.0) {
+                            return@filter true
+                        }
+
+                        // ✅ Items with no location set — show them
+                        if (item.latitude == 0.0 && item.longitude == 0.0) {
+                            return@filter true
+                        }
+
+                        val distance = calculateDistance(
+                            userLat, userLon,
+                            item.latitude, item.longitude
+                        )
+                        distance <= radiusKm
                     }
 
                 view.layoutManager = LinearLayoutManager(

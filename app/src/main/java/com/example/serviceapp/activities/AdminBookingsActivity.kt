@@ -36,31 +36,41 @@ class AdminBookingsActivity : BaseActivity() {
     }
 
     private fun loadBookings() {
+        // ✅ Structure is Bookings/{providerId}/{bookingId}
         db.child("Bookings").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 list.clear()
-                for (bookingSnap in snapshot.children) {
-                    try {
-                        val booking = BookingModel(
-                            bookingId    = bookingSnap.child("bookingId").getValue(String::class.java) ?: bookingSnap.key ?: "",
-                            userId       = bookingSnap.child("userId").getValue(String::class.java) ?: "",
-                            userName     = bookingSnap.child("userName").getValue(String::class.java) ?: "Unknown",
-                            userEmail    = bookingSnap.child("userEmail").getValue(String::class.java) ?: "",
-                            serviceId    = bookingSnap.child("serviceId").getValue(String::class.java) ?: "",
-                            serviceTitle = bookingSnap.child("serviceTitle").getValue(String::class.java) ?: "Unknown Service",
-                            providerId   = bookingSnap.child("providerId").getValue(String::class.java) ?: "",
-                            status       = bookingSnap.child("status").getValue(String::class.java) ?: "Pending",
-                            serviceType  = bookingSnap.child("serviceType").getValue(String::class.java) ?: "inHome",
-                            price        = bookingSnap.child("price").getValue(Int::class.java) ?: 0,
-                            userLat      = bookingSnap.child("userLat").getValue(Double::class.java) ?: 0.0,
-                            userLon      = bookingSnap.child("userLon").getValue(Double::class.java) ?: 0.0,
-                            timestamp    = bookingSnap.child("timestamp").getValue(Long::class.java) ?: 0L
-                        )
-                        list.add(booking)
-                    } catch (e: Exception) {
+
+                // ✅ First loop: iterate provider nodes
+                for (providerSnap in snapshot.children) {
+                    // ✅ Second loop: iterate actual booking nodes
+                    for (bookingSnap in providerSnap.children) {
+                        try {
+                            val booking = BookingModel(
+                                bookingId    = bookingSnap.child("bookingId").getValue(String::class.java) ?: bookingSnap.key ?: "",
+                                userId       = bookingSnap.child("userId").getValue(String::class.java) ?: "",
+                                userName     = bookingSnap.child("userName").getValue(String::class.java) ?: "Unknown",
+                                userEmail    = bookingSnap.child("userEmail").getValue(String::class.java) ?: "",
+                                userPhone    = bookingSnap.child("userPhone").getValue(String::class.java) ?: "",
+                                serviceId    = bookingSnap.child("serviceId").getValue(String::class.java) ?: "",
+                                serviceTitle = bookingSnap.child("serviceTitle").getValue(String::class.java) ?: "Unknown Service",
+                                providerId   = bookingSnap.child("providerId").getValue(String::class.java) ?: "",
+                                status       = bookingSnap.child("status").getValue(String::class.java) ?: "Pending",
+                                serviceType  = bookingSnap.child("serviceType").getValue(String::class.java) ?: "inHome",
+                                price        = bookingSnap.child("price").getValue(Long::class.java)?.toInt() ?: 0,
+                                userLat      = bookingSnap.child("userLat").getValue(Double::class.java) ?: 0.0,
+                                userLon      = bookingSnap.child("userLon").getValue(Double::class.java) ?: 0.0,
+                                timestamp    = bookingSnap.child("timestamp").getValue(Long::class.java) ?: 0L
+                            )
+                            list.add(booking)
+                        } catch (e: Exception) {
+                            android.util.Log.e("ADMIN_BOOKINGS", "Error: ${e.message}")
+                        }
                     }
                 }
+
                 adapter.notifyDataSetChanged()
+
                 if (list.isEmpty()) {
                     Toast.makeText(
                         this@AdminBookingsActivity,

@@ -52,6 +52,7 @@ class AdminDashboardActivity : BaseActivity() {
     }
 
     private fun loadCounts() {
+        // Users + Providers
         db.child("Users").get().addOnSuccessListener { snapshot ->
             var userCount = 0
             var providerCount = 0
@@ -67,14 +68,23 @@ class AdminDashboardActivity : BaseActivity() {
             providersTxt.text = "Providers: $providerCount"
         }
 
+        // ✅ Bookings — structure is Bookings/{providerId}/{bookingId}
+        // so we need to count all bookings across all providers
         db.child("Bookings").get().addOnSuccessListener { snapshot ->
-            bookingsTxt.text = "Bookings: ${snapshot.childrenCount}"
+            var totalBookings = 0L
+            for (providerSnap in snapshot.children) {
+                // each child of providerId is a bookingId
+                totalBookings += providerSnap.childrenCount
+            }
+            bookingsTxt.text = "Bookings: $totalBookings"
         }
 
+        // Services
         db.child("Items").get().addOnSuccessListener { snapshot ->
             servicesTxt.text = "Services: ${snapshot.childrenCount}"
         }
 
+        // Reports
         db.child("Reports").get().addOnSuccessListener { snapshot ->
             reportsTxt.text = "Reports: ${snapshot.childrenCount}"
         }
