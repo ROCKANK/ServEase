@@ -37,6 +37,35 @@ class ItemListCategoryAdapter(val items: MutableList<ItemModel>) :
         holder.binding.titleTxt.text = item.title
         holder.binding.subTitletxt.text = item.subtitle.toString()
 
+        // Add inside onBindViewHolder after subTitletxt binding:
+
+        // ✅ Load average rating from Firebase
+        val serviceId = item.id.ifEmpty {
+            item.title?.replace(" ", "_")?.take(50) ?: ""
+        }
+        if (serviceId.isNotEmpty()) {
+            FirebaseDatabase.getInstance().reference
+                .child("Reviews").child(serviceId).get()
+                .addOnSuccessListener { snapshot ->
+                    if (snapshot.exists() && snapshot.childrenCount > 0) {
+                        var total = 0f
+                        var count = 0
+                        for (snap in snapshot.children) {
+                            val rating = snap.child("rating").getValue(Float::class.java) ?: continue
+                            total += rating
+                            count++
+                        }
+                        if (count > 0) {
+                            val avg = total / count
+                            holder.binding.ratingTxt.text = "⭐ ${String.format("%.1f", avg)} ($count)"
+                            holder.binding.ratingTxt.visibility = View.VISIBLE
+                        }
+                    } else {
+                        holder.binding.ratingTxt.text = "⭐ No ratings yet"
+                    }
+                }
+        }
+
         if (!item.serviceType.isNullOrEmpty()) {
             holder.binding.typeTxt.visibility = View.VISIBLE
             holder.binding.typeTxt.text =

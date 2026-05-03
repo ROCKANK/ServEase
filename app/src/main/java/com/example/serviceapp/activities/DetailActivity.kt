@@ -10,14 +10,19 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
+import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.serviceapp.R
+import com.example.serviceapp.adapters.ReviewAdapter
 import com.example.serviceapp.databinding.ActivityDetailBinding
 import com.example.serviceapp.domain.BookingModel
 import com.example.serviceapp.domain.ItemModel
+import com.example.serviceapp.domain.ReviewModel
 import com.example.serviceapp.utils.LocationHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -101,6 +106,8 @@ class DetailActivity : BaseActivity() {
                 sendSms(this@DetailActivity, item.phone.toString(),
                     "Hello! I'm interested in your service.")
             }
+
+            // ✅ Book Now with confirm dialog
             bookNowBtn.setOnClickListener {
                 val dialogView = layoutInflater.inflate(R.layout.dialog_booking_confirm, null)
                 dialogView.findViewById<TextView>(R.id.confirmTitle).text = item.title
@@ -121,12 +128,19 @@ class DetailActivity : BaseActivity() {
 
                 AlertDialog.Builder(this@DetailActivity)
                     .setView(dialogView)
-                    .setPositiveButton("Confirm Booking") { _, _ ->
-                        addToCart() // proceed with booking
-                    }
+                    .setPositiveButton("Confirm Booking") { _, _ -> addToCart() }
                     .setNegativeButton("Cancel", null)
                     .show()
             }
+
+            // ✅ Write Review button
+            writeReviewBtn.setOnClickListener {
+                showReviewDialog()
+            }
+
+            // ✅ Setup reviews list
+            reviewsList.layoutManager = LinearLayoutManager(this@DetailActivity)
+            reviewsList.isNestedScrollingEnabled = false
 
             val user = FirebaseAuth.getInstance().currentUser
             if (user == null) {
@@ -134,6 +148,7 @@ class DetailActivity : BaseActivity() {
                     Toast.makeText(this@DetailActivity,
                         "Please login first", Toast.LENGTH_SHORT).show()
                 }
+                loadReviews()
                 return
             }
 
@@ -167,10 +182,111 @@ class DetailActivity : BaseActivity() {
                     Toast.makeText(this@DetailActivity, "Saved", Toast.LENGTH_SHORT).show()
                 }
             }
+
+            loadReviews()
         }
     }
 
+    // ✅ Show review dialog
+    private fun showReviewDialog() {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null) {
+            Toast.makeText(this, "Please login to write a review", Toast.LENGTH_SHORT).show()
+            return
+        }
 
+        val dialogView = layoutInflater.inflate(R.layout.dialog_review, null)
+        val ratingBar = dialogView.findViewById<RatingBar>(R.id.reviewRatingBar)
+        val bodyEdt = dialogView.findViewById<EditText>(R.id.reviewBodyEdt)
+
+        AlertDialog.Builder(this)
+            .setTitle("Rate & Review")
+            .setView(dialogView)
+            .setPositiveButton("Submit") { _, _ ->
+                val rating = ratingBar.rating
+                val body = bodyEdt.text.toString().trim()
+
+                if (rating == 0f) {
+                    Toast.makeText(this, "Please select a rating", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+
+                submitReview(user.uid, rating, body)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    // ✅ Submit review to Firebase
+    private fun submitReview(uid: String, rating: Float, body: String) {
+        val db = FirebaseDatabase.getInstance().reference
+        val serviceId = item.id.ifEmpty { item.title?.replace(" ", "_") ?: return }
+
+        db.child("Users").child(uid).get().addOnSuccessListener { snapshot ->
+            val userName = snapshot.child("name").getValue(String::class.java) ?: "User"
+            val userPic = snapshot.child("profilePic").getValue(String::class.java) ?: ""
+
+            val reviewId = db.child("Reviews").child(serviceId).push().key ?: return@addOnSuccessListener
+
+            val review = ReviewModel(
+                reviewId  = reviewId,
+                userId    = uid,
+                userName  = userName,
+                userPic   = userPic,
+                serviceId = serviceId,
+                rating    = rating,
+                body      = body,
+                timestamp = System.currentTimeMillis()
+            )
+
+            db.child("Reviews").child(serviceId).child(reviewId).setValue(review)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Review submitted! Thank you.", Toast.LENGTH_SHORT).show()
+                    loadReviews() // refresh
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to submit review", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
+    // ✅ Load reviews from Firebase and update UI
+    private fun loadReviews() {
+        val serviceId = item.id.ifEmpty { item.title?.replace(" ", "_") ?: return }
+        val db = FirebaseDatabase.getInstance().reference
+
+        db.child("Reviews").child(serviceId).get()
+            .addOnSuccessListener { snapshot ->
+                val reviews = mutableListOf<ReviewModel>()
+                var totalRating = 0f
+
+                for (snap in snapshot.children) {
+                    try {
+                        val review = snap.getValue(ReviewModel::class.java) ?: continue
+                        reviews.add(review)
+                        totalRating += review.rating
+                    } catch (e: Exception) {
+                        continue
+                    }
+                }
+
+                // ✅ Update average rating display
+                if (reviews.isNotEmpty()) {
+                    val avg = totalRating / reviews.size
+                    binding.avgRatingTxt.text = String.format("%.1f", avg)
+                    binding.avgRatingBar.rating = avg
+                    binding.reviewCountTxt.text = "${reviews.size} review${if (reviews.size > 1) "s" else ""}"
+                } else {
+                    binding.avgRatingTxt.text = "0.0"
+                    binding.avgRatingBar.rating = 0f
+                    binding.reviewCountTxt.text = "No reviews yet"
+                }
+
+                // ✅ Show reviews sorted by newest first
+                reviews.sortByDescending { it.timestamp }
+                binding.reviewsList.adapter = ReviewAdapter(reviews)
+            }
+    }
 
     private fun addToCart() {
         val user = FirebaseAuth.getInstance().currentUser
@@ -253,7 +369,7 @@ class DetailActivity : BaseActivity() {
                 providerId   = item.providerId,
                 status       = "Pending",
                 serviceType  = item.serviceType,
-                price = item.price?.toInt() ?: 0,
+                price        = item.price?.toInt() ?: 0,
                 timestamp    = timestamp
             )
 
